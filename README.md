@@ -1,7 +1,7 @@
 # 🏠 Boston Housing Price Predictor
 
 Esta aplicación predice el **precio medio de una vivienda en Boston** (en miles de dólares) utilizando un modelo de regresión lineal entrenado con el dataset clásico **Boston Housing**.
-Accesible en https://tuusuario-boston-housing-app.streamlit.app
+Accesible en https://boston-housing-app.streamlit.app
 
 
 ## 📦 Estructura del proyecto
