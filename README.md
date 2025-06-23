@@ -28,15 +28,3 @@ boston-housing-app/
    git clone https://github.com/TU-USUARIO/boston-housing-app.git
    cd boston-housing-app
 
-2.Crea un entorno virtual:
-
-python -m venv venv
-venv\Scripts\activate   # En Windows
-# o
-source venv/bin/activate  # En macOS/Linux
-
-3.Instala las dependencias:
-pip install -r requirements.txt
-
-4.Ejecuta la app:
-streamlit run app.py
