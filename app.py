@@ -2,8 +2,15 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Cargar modelo
-model = joblib.load("model.pkl")
+# Cargar modelos
+modelos = {
+    "Regresión Lineal": "model_lr.pkl",
+    "Random Forest": "model_rf.pkl",
+    "XGBoost": "model_xgb.pkl"
+}
+
+modelo_nombre = st.selectbox("🧠 Elige el modelo para predecir:", list(modelos.keys()))
+modelo = joblib.load(modelos[modelo_nombre])
 
 st.title("🏠 Predicción de Precio de Vivienda (Boston Housing)")
 st.write("Completa los datos de la zona para predecir el precio medio (en miles de dólares).")
@@ -41,5 +48,5 @@ input_data = pd.DataFrame([{
 }])
 
 # Predicción
-pred = model.predict(input_data)[0]
-st.subheader(f"💰 Precio estimado: ${pred * 1000:,.2f}")
+pred = modelo.predict(input_data)[0]
+st.subheader(f"💰 Precio estimado con {modelo_nombre}: ${pred * 1000:,.2f}")

@@ -1,30 +1,33 @@
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
 import joblib
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+import xgboost as xgb
 
 # Cargar dataset
 url = "https://raw.githubusercontent.com/selva86/datasets/master/BostonHousing.csv"
 df = pd.read_csv(url)
 
-# Separar X (features) y y (target)
 X = df.drop(columns=["medv"])
 y = df["medv"]
 
-# Crear pipeline: escalado + regresión
-pipeline = Pipeline([
-    ("scaler", StandardScaler()),
-    ("model", LinearRegression())
-])
+# Pipelines
+def create_pipeline(model):
+    return Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", model)
+    ])
 
-# Entrenar
-pipeline.fit(X, y)
+# Entrenar y guardar cada modelo
+models = {
+    "lr": create_pipeline(LinearRegression()),
+    "rf": create_pipeline(RandomForestRegressor(n_estimators=100, random_state=42)),
+    "xgb": create_pipeline(xgb.XGBRegressor(n_estimators=100, random_state=42))
+}
 
-# Guardar modelo
-joblib.dump(pipeline, "model.pkl")
-print("✅ Modelo guardado como model.pkl con todas las variables.")
-
-df = pd.read_csv(url)
-print(df.columns.tolist())
-exit()
+for name, pipeline in models.items():
+    pipeline.fit(X, y)
+    joblib.dump(pipeline, f"model_{name}.pkl")
+    print(f"✅ Modelo {name.upper()} guardado como model_{name}.pkl")
